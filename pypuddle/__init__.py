@@ -12,14 +12,14 @@ class DataPuddle:
         if response.status_code == 200:
             self.key = json.loads(response.content.decode('utf-8')).get("key")
         else:
-            raise RuntimeError("unable to obtain api key")
+            raise RuntimeError("Unable to obtain api key")
 
     def cd(self, path):
         url = self.__get_endpoint("cd", path=path)
         response = requests.get(url)
         json_response = json.loads(response.content.decode('utf-8'))
         if json_response.get("outcome") == "error":
-            raise RuntimeError("cd error. Specified path is probably non existent")
+            raise RuntimeError("CD error")
 
     def pwd(self):
         url = self.__get_endpoint("pwd")
