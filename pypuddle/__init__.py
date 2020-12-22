@@ -36,6 +36,13 @@ class DataPuddle:
         if json_response.get("outcome") == "error":
             raise RuntimeError("MKDIR error")
 
+    def store(self, file, filename):
+        url = self.__get_endpoint("store", filename=filename)
+        response = requests.post(url, file)
+        json_response = json.loads(response.content.decode('utf-8'))
+        if json_response.get("outcome") == "error":
+            raise RuntimeError("STORE error")
+
     def __get_endpoint(self, action, **kwargs):
         endpoint = f"{self.base_url}/{action}?key={self.key}"
         for key, item in kwargs.items():
