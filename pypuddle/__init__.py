@@ -21,6 +21,14 @@ class DataPuddle:
         if json_response.get("outcome") == "error":
             raise RuntimeError("cd error. Specified path is probably non existent")
 
+    def pwd(self):
+        url = self.__get_endpoint("pwd")
+        response = requests.get(url)
+        json_response = json.loads(response.content.decode('utf-8'))
+        if json_response.get("outcome") == "error":
+            raise RuntimeError("PWD error")
+        return json_response.get("path")
+
     def __get_endpoint(self, action, **kwargs):
         endpoint = f"{self.base_url}/{action}?key={self.key}"
         for key, item in kwargs.items():
