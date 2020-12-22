@@ -43,6 +43,14 @@ class DataPuddle:
         if json_response.get("outcome") == "error":
             raise RuntimeError("STORE error")
 
+    def retrieve(self, filename):
+        url = self.__get_endpoint("retrieve", filename=filename)
+        response = requests.get(url)
+        json_response = json.loads(response.content.decode('utf-8'))
+        if json_response.get("outcome") == "error":
+            raise RuntimeError("RETRIEVE error")
+        return json_response.get("file")
+
     def __get_endpoint(self, action, **kwargs):
         endpoint = f"{self.base_url}/{action}?key={self.key}"
         for key, item in kwargs.items():
