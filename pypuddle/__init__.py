@@ -49,7 +49,7 @@ class DataPuddle:
         json_response = json.loads(response.content.decode('utf-8'))
         if json_response.get("outcome") == "error":
             raise RuntimeError("RETRIEVE error")
-        return json_response.get("file")
+        return json.loads(json_response.get("file"))
 
     def __get_endpoint(self, action, **kwargs):
         endpoint = f"{self.base_url}/{action}?key={self.key}"
