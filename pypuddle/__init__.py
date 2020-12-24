@@ -36,7 +36,10 @@ class DataPuddle:
         if json_response.get("outcome") == "error":
             raise RuntimeError("MKDIR error")
 
-    def store(self, file, filename):
+    def store(self, file, filename, overwrite=False):
+        if overwrite:
+            self.rm(filename)
+
         url = self.__get_endpoint("store", filename=filename)
         response = requests.post(url, file)
         json_response = json.loads(response.content.decode('utf-8'))
